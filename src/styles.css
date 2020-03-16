@@ -1,0 +1,15 @@
+.switchSpan {
+    color: white;
+    font-size: 18px;
+    font-weight: lighter;
+    margin-left: 10px;
+    margin-right: 25px;
+}
+
+.bookmark {
+    margin-right: 5px;
+}
+
+.navbar {
+    background: linear-gradient(to right, #202f51, 80%, #445ea7);
+}
