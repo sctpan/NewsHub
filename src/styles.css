@@ -13,3 +13,45 @@
 .navbar {
     background: linear-gradient(to right, #202f51, 80%, #445ea7);
 }
+
+
+.newsbar {
+    margin: 15px 8px 40px 8px;
+    padding: 20px 20px 20px 20px;
+    border: #d8d8d8 1px solid;
+    box-shadow: 1px 4px 4px 1px rgba(0,0,0,.2);
+
+}
+
+.news-image {
+    border: #d8d8d8 1px solid;
+    padding: 3px 3px 3px 3px;
+    height: 170px;
+    width: 280px;
+    object-fit: cover;
+}
+
+.news-title {
+    font-size: 24px;
+    line-height: 20px;
+    font-weight: bold;
+    font-style: italic;
+    margin-bottom: 15px;
+}
+
+.news-description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    margin-bottom: 15px;
+}
+
+.news-time {
+    font-style: italic;
+}
+
+.news-category {
+    float: right;
+}

@@ -15,11 +15,7 @@ class MySwitch extends React.Component {
 
     render() {
         return (
-
-
                 <div>
-
-
                     <Switch
                         onChange={this.handleChange}
                         onColor="#4191e7"
@@ -29,9 +25,7 @@ class MySwitch extends React.Component {
                         className="react-switch"
                         height={28}
                     />
-
                 </div>
-
         );
     }
 }

@@ -1,6 +1,7 @@
 import React,  { useState } from 'react';
 import './App.css';
 import MyNavbar from './MyNavbar';
+import NewsBar from './NewsBar';
 
 
 
@@ -8,7 +9,15 @@ import MyNavbar from './MyNavbar';
 
 function App() {
   return (
-     <MyNavbar/>
+      <div>
+        <MyNavbar/>
+        <div class="news">
+          <NewsBar/>
+            <NewsBar/>
+            <NewsBar/>
+        </div>
+      </div>
+
   );
 }
 
