@@ -12,7 +12,7 @@ class NewsSwitch extends React.Component {
     handleChange(checked) {
         console.log("switch condition: " + checked);
         this.setState({ checked });
-        this.props.getSource(checked);
+        this.props.getSource(!checked);
     }
 
     render() {

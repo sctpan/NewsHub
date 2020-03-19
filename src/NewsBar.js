@@ -1,6 +1,7 @@
 import React from 'react'
 import './styles.css'
 import {Row, Col, Container, Badge} from 'react-bootstrap'
+import {IoMdShare} from 'react-icons/io'
 import test from './test.jpg'
 
 class NewsBar extends React.Component {
@@ -32,6 +33,11 @@ class NewsBar extends React.Component {
         return {backgroundColor: backgroundColor, color: color};
     }
 
+    shareNews = () => {
+        console.log("shareNews: " + this.props.index);
+        this.props.shareNews(this.props.index);
+    }
+
 
     render() {
         return (
@@ -44,6 +50,7 @@ class NewsBar extends React.Component {
                     <Col>
                         <div className="news-title">
                             {this.props.news.title}
+                            <button className="share-btn" onClick={this.shareNews}><IoMdShare/></button>
                         </div>
                         <div className="news-description">
                             {this.props.news.description}

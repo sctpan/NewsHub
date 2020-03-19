@@ -7,7 +7,7 @@ class App extends React.Component {
     constructor() {
         super();
         this.state = {
-            source: false,
+            nyTimesFlag: true,
             currentLink: 'home'
         }
     }
@@ -15,7 +15,7 @@ class App extends React.Component {
 
     getSource = nyTimesFlag => {
         this.setState({
-            source: nyTimesFlag
+            nyTimesFlag: nyTimesFlag
         });
     }
 
@@ -29,7 +29,7 @@ class App extends React.Component {
         return (
             <div>
                 <NewsNavbar getSource={this.getSource} getLink={this.getLink}/>
-                <NewsContent nyTimesFlag={this.state.source} currentLink={this.state.currentLink}/>
+                <NewsContent nyTimesFlag={this.state.nyTimesFlag} currentLink={this.state.currentLink}/>
             </div>
         );
     }

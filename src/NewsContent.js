@@ -4,16 +4,26 @@ import NewsFetcher from "./NewsFetcher";
 import BounceLoader from 'react-spinners/BounceLoader'
 import { css } from '@emotion/core'
 import './styles.css'
+import {Row, Col, Modal} from "react-bootstrap";
+import {EmailIcon, FacebookIcon, TwitterIcon, FacebookShareButton, TwitterShareButton, EmailShareButton} from 'react-share'
 
 class NewsContent extends React.Component {
     state = {
         newsList: [],
-        loading: true
+        loading: true,
+        showModal: false,
+        chosenNewsIndex: 0
     };
 
     loaderStyle = css`
-        margin: 0 auto
-    `;
+        margin: 0 auto;
+    `
+
+    handleClose= () => {
+        this.setState({
+            showModal: false
+        });
+    }
 
     getNews(url, section) {
         this.setState({
@@ -26,7 +36,7 @@ class NewsContent extends React.Component {
                 });
                 this.setState({
                     loading: false
-                })
+                });
                 console.log(this.state.newsList)
             });
     }
@@ -34,8 +44,8 @@ class NewsContent extends React.Component {
     convertSection(link) {
         let section = '';
         if(this.props.nyTimesFlag) {
-            let guardianSection = {'home': 'all', 'world': 'world', 'politics': 'politics', 'business': 'business', 'technology': 'technology', 'sports': 'sport'};
-            section = guardianSection[link];
+            let nyTimesSection = {'home': 'home', 'world': 'world', 'politics': 'politics', 'business': 'business', 'technology': 'technology', 'sports': 'sports'};
+            section = nyTimesSection[link];
         } else {
             let guardianSection = {'home': 'all', 'world': 'world', 'politics': 'politics', 'business': 'business', 'technology': 'technology', 'sports': 'sport'};
             section = guardianSection[link];
@@ -44,11 +54,17 @@ class NewsContent extends React.Component {
     }
 
     componentDidMount() {
-        this.getNews('news/guardian', 'all');
+        this.getNews('news/nytimes', 'home');
     }
 
     componentDidUpdate(prevProps) {
         if (this.props.nyTimesFlag !== prevProps.nyTimesFlag) {
+            let url = 'news/guardian';
+            let section = this.convertSection(this.props.currentLink);
+            if(this.props.nyTimesFlag) {
+                url = 'news/nytimes';
+            }
+            this.getNews(url, section);
             console.log("getNews: " + this.props.nyTimesFlag);
         }
 
@@ -56,11 +72,18 @@ class NewsContent extends React.Component {
             let url = 'news/guardian';
             let section = this.convertSection(this.props.currentLink);
             if(this.props.nyTimesFlag) {
-                url = 'news/guardian'; // need to modify
+                url = 'news/nytimes';
             }
             this.getNews(url, section);
             console.log("currentLink: " + this.props.currentLink);
         }
+    }
+
+    shareNews = index => {
+        this.setState({
+            chosenNewsIndex: index,
+            showModal: true
+        })
     }
 
     render() {
@@ -80,11 +103,42 @@ class NewsContent extends React.Component {
         } else {
             return (
                 <div className="news">
+                    <Modal show={this.state.showModal} onHide={this.handleClose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title className="share-modal-title">{this.state.newsList[this.state.chosenNewsIndex].title}</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <div className="share-via">
+                                Share via
+                            </div>
+                            <Row>
+                                <Col className="social-share-btn" md={4}>
+                                    <FacebookShareButton className="social-share-btn" url={this.state.newsList[this.state.chosenNewsIndex].shareUrl}>
+                                        <FacebookIcon className="social-share-icon" size={50} round={true}/>
+                                    </FacebookShareButton>
+                                </Col>
+                                <Col className="social-share-btn" md={4}>
+                                    <TwitterShareButton className="social-share-btn" url={this.state.newsList[this.state.chosenNewsIndex].shareUrl}>
+                                        <TwitterIcon className="social-share-icon" size={50} round={true}/>
+                                    </TwitterShareButton>
+                                </Col>
+                                <Col className="social-share-btn" md={4}>
+                                    <EmailShareButton className="social-share-btn" url={this.state.newsList[this.state.chosenNewsIndex].shareUrl} subject={'#CSCI_571_NewsApp'}>
+                                        <EmailIcon className="social-share-icon" size={50} round={true}/>
+                                    </EmailShareButton>
+                                </Col>
+                            </Row>
+
+
+
+
+                        </Modal.Body>
+                    </Modal>
                     <BounceLoader
                         loading={this.state.loading}
                     />
-                    {this.state.newsList.map((news) =>
-                        <NewsBar news={news} key={news.id}/>
+                    {this.state.newsList.map((news, index) =>
+                        <NewsBar news={news} key={index} index={index} shareNews={this.shareNews}/>
                     )}
                 </div>
             )
