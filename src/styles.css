@@ -55,3 +55,18 @@
 .news-category {
     float: right;
 }
+
+.loader {
+    left: 50%;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.loader-text {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 22px;
+
+}

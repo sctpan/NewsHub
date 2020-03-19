@@ -1,19 +1,32 @@
 import React from 'react';
 import NewsBar from "./NewsBar";
 import NewsFetcher from "./NewsFetcher";
+import BounceLoader from 'react-spinners/BounceLoader'
+import { css } from '@emotion/core'
 import './styles.css'
 
 class NewsContent extends React.Component {
     state = {
-        newsList: []
+        newsList: [],
+        loading: true
     };
 
+    loaderStyle = css`
+        margin: 0 auto
+    `;
+
     getNews(url, section) {
+        this.setState({
+            loading: true
+        })
         NewsFetcher.get(url, {'section': section})
             .then(data => {
                 this.setState({
                     newsList: data.news
                 });
+                this.setState({
+                    loading: false
+                })
                 console.log(this.state.newsList)
             });
     }
@@ -51,14 +64,34 @@ class NewsContent extends React.Component {
     }
 
     render() {
-        return (
-            <div className="news">
-                {/*{console.log("newsList: " + this.state.newsList[0].title)}*/}
-                {this.state.newsList.map((news) =>
-                    <NewsBar news={news} key={news.id}/>
-                )}
-            </div>
-        );
+        if(this.state.loading) {
+            return (
+                <div className="loader">
+                    <BounceLoader
+                        css={this.loaderStyle}
+                        size={36}
+                        color={'#364cbc'}
+                        loading={this.state.loading}
+                    />
+                    <div className="loader-text">Loading</div>
+                </div>
+
+            );
+        } else {
+            return (
+                <div className="news">
+                    <BounceLoader
+                        loading={this.state.loading}
+                    />
+                    {this.state.newsList.map((news) =>
+                        <NewsBar news={news} key={news.id}/>
+                    )}
+                </div>
+            )
+        }
+
+
+
     }
 }
 
