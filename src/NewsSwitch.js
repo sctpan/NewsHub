@@ -2,15 +2,17 @@ import React from "react";
 import Switch from "react-switch";
 
 
-class MySwitch extends React.Component {
-    constructor() {
-        super();
+class NewsSwitch extends React.Component {
+    constructor(props) {
+        super(props);
         this.state = { checked: false };
         this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange(checked) {
+        console.log("switch condition: " + checked);
         this.setState({ checked });
+        this.props.getSource(checked);
     }
 
     render() {
@@ -30,4 +32,4 @@ class MySwitch extends React.Component {
     }
 }
 
-export default MySwitch;
+export default NewsSwitch;
