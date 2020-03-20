@@ -8,20 +8,18 @@ import {FaRegBookmark} from 'react-icons/fa'
 
 
 class NewsNavbar extends React.Component {
-    state = {
-        currentLink: 1
-    }
-
     getSource = nyTimesFlag => {
         console.log("nyTimesFlag: " + nyTimesFlag);
         this.props.getSource(nyTimesFlag);
     };
 
-    handleSelect = eventKey => {
-        let links = ['home', 'home', 'world', 'politics', 'business', 'technology', 'sports'];
-        this.setState({currentLink: eventKey});
-        this.props.getLink(links[eventKey]);
-    };
+    getSectionKey = section => {
+        let links = {'home': 1, 'world': 2, 'politics': 3, 'business': 4, 'technology': 5, 'sports': 6};
+        if(!links.hasOwnProperty(section)) {
+            return -1;
+        }
+        return links[section];
+    }
 
     render() {
         const scaryAnimals = [
@@ -44,13 +42,13 @@ class NewsNavbar extends React.Component {
                 <Col>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
-                        <Nav className="mr-auto" activeKey={this.state.currentLink} onSelect={this.handleSelect}>
-                            <Nav.Link eventKey="1" href="#Home">Home</Nav.Link>
-                            <Nav.Link eventKey="2" href="#World">World</Nav.Link>
-                            <Nav.Link eventKey="3" href="#Politics">Politics</Nav.Link>
-                            <Nav.Link eventKey="4" href="#Business">Business</Nav.Link>
-                            <Nav.Link eventKey="5" href="#Technology">Technology</Nav.Link>
-                            <Nav.Link eventKey="6" href="#Sports">Sports</Nav.Link>
+                        <Nav className="mr-auto" activeKey={this.getSectionKey(this.props.activeSection)}>
+                            <Nav.Link eventKey="1" href="#/Home">Home</Nav.Link>
+                            <Nav.Link eventKey="2" href="#/World">World</Nav.Link>
+                            <Nav.Link eventKey="3" href="#/Politics">Politics</Nav.Link>
+                            <Nav.Link eventKey="4" href="#/Business">Business</Nav.Link>
+                            <Nav.Link eventKey="5" href="#/Technology">Technology</Nav.Link>
+                            <Nav.Link eventKey="6" href="#/Sports">Sports</Nav.Link>
                         </Nav>
                         <Nav>
                             <IconContext.Provider value={{ color: "white" }}>

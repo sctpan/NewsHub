@@ -42,6 +42,7 @@ class NewsContent extends React.Component {
     }
 
     convertSection(link) {
+        link = link.toLowerCase();
         let section = '';
         if(this.props.nyTimesFlag) {
             let nyTimesSection = {'home': 'home', 'world': 'world', 'politics': 'politics', 'business': 'business', 'technology': 'technology', 'sports': 'sports'};

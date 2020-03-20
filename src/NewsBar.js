@@ -18,6 +18,10 @@ class NewsBar extends React.Component {
         return date.getFullYear() + '-' + month + '-' + day;
     }
 
+    putArticleUrl = () => {
+        window.location.href = '#/article?id=' + this.props.news.id;
+    }
+
     getSectionColor(section) {
         var backgroundColor = '#6f757b';
         var color = 'white';
@@ -48,18 +52,18 @@ class NewsBar extends React.Component {
                         <img src={this.props.news.image} className="news-image"/>
                     </Col>
                     <Col>
-                        <div className="news-title">
-                            {this.props.news.title}
-                            <button className="share-btn" onClick={this.shareNews}><IoMdShare/></button>
-                        </div>
-                        <div className="news-description">
-                            {this.props.news.description}
-                        </div>
-                        <div className="news-info">
-                            <span className="news-time">{this.convertDate(this.props.news.date)}</span>
-                            {/*variant={this.getSectionColor(this.props.news.section)*/}
-                            <Badge className="news-category" style={this.getSectionColor(this.props.news.section)}>{this.props.news.section.toUpperCase()}</Badge>
-                        </div>
+                            <div className="news-title">
+                                <span onClick={this.putArticleUrl}>{this.props.news.title}</span>
+                                <button className="share-btn" onClick={this.shareNews}><IoMdShare/></button>
+                            </div>
+                            <div className="news-description" onClick={this.putArticleUrl}>
+                                {this.props.news.description}
+                            </div>
+                            <div className="news-info" onClick={this.putArticleUrl}>
+                                <span className="news-time">{this.convertDate(this.props.news.date)}</span>
+                                {/*variant={this.getSectionColor(this.props.news.section)*/}
+                                <Badge className="news-category" style={this.getSectionColor(this.props.news.section)}>{this.props.news.section.toUpperCase()}</Badge>
+                            </div>
                     </Col>
 
                 </Row>

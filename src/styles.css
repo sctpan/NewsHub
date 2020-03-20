@@ -98,4 +98,16 @@
     margin-bottom: 5px;
 }
 
+.news-title:hover {
+    cursor: pointer;
+}
+
+.news-info:hover {
+    cursor: pointer;
+}
+
+.news-description:hover {
+    cursor: pointer;
+}
+
 
