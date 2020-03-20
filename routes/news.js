@@ -84,6 +84,7 @@ function getNyTimesNews(data) {
             continue;
         }
         let processedNews = {};
+        processedNews.id = news.url;
         processedNews.title = news.title;
         let flag = false;
         for(var j=0; j<news.multimedia.length; j++) {
@@ -97,7 +98,7 @@ function getNyTimesNews(data) {
         processedNews.section = news.section;
         processedNews.date = news.published_date;
         processedNews.description = news.abstract;
-        processedNews.shareUrl = news.url
+        processedNews.shareUrl = news.url;
         processedNewsList.push(processedNews);
         if(processedNewsList.length === 10) break;
     }
@@ -112,6 +113,7 @@ function getGuardianNews(data) {
         if(!checkJsonKey(news, ['id', 'webTitle', 'sectionId', 'webPublicationDate', 'blocks', 'webUrl'])
             || !checkJsonKeyHelper(news.blocks, 'body') || news.blocks.body.length === 0 || !checkJsonKeyHelper(news.blocks.body[0], 'bodyTextSummary')) continue;
         let processedNews = {};
+        processedNews.id = news.id;
         processedNews.title = news.webTitle;
         if(checkJsonKeyHelper(news.blocks, 'main') && checkJsonKeyHelper(news.blocks.main, 'elements')
             && news.blocks.main.elements.length > 0 && checkJsonKeyHelper(news.blocks.main.elements[0], 'assets')
