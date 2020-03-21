@@ -19,7 +19,7 @@ router.get('/nytimes', function(req, res) {
         params: params
     }).then(function (response) {
         data = response.data;
-        returnNewsList = getNyTimesNews(data)
+        returnNewsList = getNyTimesNews(data);
         res.json({'news': returnNewsList});
     })
 
