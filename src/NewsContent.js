@@ -55,18 +55,21 @@ class NewsContent extends React.Component {
     }
 
     componentDidMount() {
-        this.getNews('news/nytimes', 'home');
+        this.refreshPage();
+    }
+
+    refreshPage() {
+        let url = 'news/guardian';
+        let section = this.convertSection(this.props.currentLink);
+        if(this.props.nyTimesFlag) {
+            url = 'news/nytimes';
+        }
+        this.getNews(url, section);
     }
 
     componentDidUpdate(prevProps) {
         if (this.props.nyTimesFlag !== prevProps.nyTimesFlag) {
-            let url = 'news/guardian';
-            let section = this.convertSection(this.props.currentLink);
-            if(this.props.nyTimesFlag) {
-                url = 'news/nytimes';
-            }
-            this.getNews(url, section);
-            console.log("getNews: " + this.props.nyTimesFlag);
+            this.refreshPage();
         }
 
         if (this.props.currentLink !== prevProps.currentLink) {
@@ -135,9 +138,6 @@ class NewsContent extends React.Component {
 
                         </Modal.Body>
                     </Modal>
-                    <BounceLoader
-                        loading={this.state.loading}
-                    />
                     {this.state.newsList.map((news, index) =>
                         <NewsBar news={news} key={index} index={index} shareNews={this.shareNews}/>
                     )}

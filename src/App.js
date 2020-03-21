@@ -34,7 +34,8 @@ class App extends React.Component {
                 let action = route.substr(0, route.indexOf('?'));
                 if(action === 'article') {
                     this.setState({
-                        articleCurrentLink: route.substr(route.indexOf('='))
+                        articleCurrentLink: route.substr(route.indexOf('=')+1),
+                        sectionCurrentLink: null
                     });
                 } else if(action === 'search') {
                     this.setState({
@@ -57,7 +58,7 @@ class App extends React.Component {
         if(this.state.articleCurrentLink == null) {
             mainContent = <NewsContent nyTimesFlag={this.state.nyTimesFlag} currentLink={this.state.sectionCurrentLink}/>
         } else {
-            mainContent = <ArticleDetail currentLink={this.state.articleCurrentLink}/>
+            mainContent = <ArticleDetail nyTimesFlag={this.state.nyTimesFlag} currentLink={this.state.articleCurrentLink}/>
         }
 
 
