@@ -155,4 +155,35 @@
     background-color: white;
 }
 
+.detailed-news-description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    margin-bottom: 15px;
+}
+
+.detailed-news-content-scroll-btn {
+    display: block;
+    float: right;
+    padding: 0;
+    border: 0;
+    outline: none !important;
+    background-color: white;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.detailed-news-description-scroll {
+    display: none;
+    margin-bottom: 15px;
+}
+
+.up-btn {
+    display: none;
+}
+
 
