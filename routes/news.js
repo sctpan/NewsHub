@@ -142,7 +142,7 @@ function checkJsonKey(json, keys) {
 }
 
 function checkJsonKeyHelper(json, key) {
-    if(!json.hasOwnProperty(key) || json.key === '') {
+    if(!json.hasOwnProperty(key) || json[key] === '' || json[key] === null || json[key] === undefined) {
         return false;
     }
     return true;
