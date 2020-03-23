@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8cd05802-6ba9-4e11-a4c2-924a8128bc53" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/NewsCommentBox.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/SearchBox.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ArticleDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ArticleDetail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NewsContent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/NewsContent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NewsNavbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/NewsNavbar.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,8 +38,11 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.standard" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.standard" value="" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
@@ -76,7 +79,9 @@
       <workItem from="1584642788176" duration="9687000" />
       <workItem from="1584741780621" duration="13345000" />
       <workItem from="1584820343326" duration="5137000" />
-      <workItem from="1584825497717" duration="2768000" />
+      <workItem from="1584825497717" duration="2816000" />
+      <workItem from="1584837809233" duration="7000" />
+      <workItem from="1584913988632" duration="15689000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1584399480644</created>
@@ -113,7 +118,14 @@
       <option name="project" value="LOCAL" />
       <updated>1584768403901</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="update">
+      <created>1584830689109</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1584830689109</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -124,26 +136,30 @@
     <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="585" y="114" key="CommitChangelistDialog2" timestamp="1584768403090">
+    <state x="552" y="178" key="#ESLint" timestamp="1584914925475">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="585" y="114" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1584768403090" />
-    <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1584830678424">
+    <state x="552" y="178" key="#ESLint/0.0.1920.1040@0.0.1920.1040" timestamp="1584914925475" />
+    <state x="585" y="114" key="CommitChangelistDialog2" timestamp="1584830687984">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1584830678424" />
-    <state width="1899" height="282" key="GridCell.Tab.0.center" timestamp="1584830678423">
+    <state x="585" y="114" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1584830687984" />
+    <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1584928006086">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1584830678423" />
-    <state width="1899" height="282" key="GridCell.Tab.0.left" timestamp="1584830678423">
+    <state width="1899" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1584928006086" />
+    <state width="1899" height="282" key="GridCell.Tab.0.center" timestamp="1584928006086">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1584830678423" />
-    <state width="1899" height="282" key="GridCell.Tab.0.right" timestamp="1584830678423">
+    <state width="1899" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1584928006086" />
+    <state width="1899" height="282" key="GridCell.Tab.0.left" timestamp="1584928006086">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1584830678423" />
+    <state width="1899" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1584928006086" />
+    <state width="1899" height="282" key="GridCell.Tab.0.right" timestamp="1584928006086">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1584928006086" />
     <state x="461" y="162" key="SettingsEditor" timestamp="1584308924181">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

@@ -105,39 +105,39 @@ class NewsContent extends React.Component {
 
             );
         } else {
+            let showModal = null;
+            if(this.state.showModal) {
+                showModal = <Modal show={this.state.showModal} onHide={this.handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title className="share-modal-title">{this.state.newsList[this.state.chosenNewsIndex].title}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="share-via">
+                            Share via
+                        </div>
+                        <Row>
+                            <Col className="social-share-btn" md={4}>
+                                <FacebookShareButton className="social-share-btn" url={this.state.newsList[this.state.chosenNewsIndex].shareUrl}>
+                                    <FacebookIcon className="social-share-icon" size={50} round={true}/>
+                                </FacebookShareButton>
+                            </Col>
+                            <Col className="social-share-btn" md={4}>
+                                <TwitterShareButton className="social-share-btn" url={this.state.newsList[this.state.chosenNewsIndex].shareUrl}>
+                                    <TwitterIcon className="social-share-icon" size={50} round={true}/>
+                                </TwitterShareButton>
+                            </Col>
+                            <Col className="social-share-btn" md={4}>
+                                <EmailShareButton className="social-share-btn" url={this.state.newsList[this.state.chosenNewsIndex].shareUrl} subject={'#CSCI_571_NewsApp'}>
+                                    <EmailIcon className="social-share-icon" size={50} round={true}/>
+                                </EmailShareButton>
+                            </Col>
+                        </Row>
+                    </Modal.Body>
+                </Modal>;
+            }
             return (
                 <div className="news">
-                    <Modal show={this.state.showModal} onHide={this.handleClose}>
-                        <Modal.Header closeButton>
-                            <Modal.Title className="share-modal-title">{this.state.newsList[this.state.chosenNewsIndex].title}</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <div className="share-via">
-                                Share via
-                            </div>
-                            <Row>
-                                <Col className="social-share-btn" md={4}>
-                                    <FacebookShareButton className="social-share-btn" url={this.state.newsList[this.state.chosenNewsIndex].shareUrl}>
-                                        <FacebookIcon className="social-share-icon" size={50} round={true}/>
-                                    </FacebookShareButton>
-                                </Col>
-                                <Col className="social-share-btn" md={4}>
-                                    <TwitterShareButton className="social-share-btn" url={this.state.newsList[this.state.chosenNewsIndex].shareUrl}>
-                                        <TwitterIcon className="social-share-icon" size={50} round={true}/>
-                                    </TwitterShareButton>
-                                </Col>
-                                <Col className="social-share-btn" md={4}>
-                                    <EmailShareButton className="social-share-btn" url={this.state.newsList[this.state.chosenNewsIndex].shareUrl} subject={'#CSCI_571_NewsApp'}>
-                                        <EmailIcon className="social-share-icon" size={50} round={true}/>
-                                    </EmailShareButton>
-                                </Col>
-                            </Row>
-
-
-
-
-                        </Modal.Body>
-                    </Modal>
+                    {showModal}
                     {this.state.newsList.map((news, index) =>
                         <NewsBar news={news} key={index} index={index} shareNews={this.shareNews}/>
                     )}
