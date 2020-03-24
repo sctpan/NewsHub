@@ -1,6 +1,7 @@
 import React from 'react';
 import {Row, Col, Navbar, Nav, Form, FormControl, Button} from 'react-bootstrap';
 import SearchBox from "./SearchBox";
+import AsyncSearchBox from "./AsyncSearchBox";
 import NewsSwitch from "./NewsSwitch";
 import './styles.css'
 import {IconContext} from 'react-icons'
@@ -26,7 +27,7 @@ class NewsNavbar extends React.Component {
         return (
             <Navbar className="navbar" expand="lg" bg="dark" variant="dark">
                 <Col md={2}>
-                    <SearchBox/>
+                    <AsyncSearchBox/>
                 </Col>
 
                 <Col>

@@ -3,6 +3,7 @@ import './App.css';
 import NewsNavbar from './NewsNavbar';
 import NewsContent from "./NewsContent";
 import ArticleDetail from './ArticleDetail'
+import NewsSearchContent from './NewsSearchContent'
 
 class App extends React.Component {
     constructor() {
@@ -10,7 +11,8 @@ class App extends React.Component {
         this.state = {
             nyTimesFlag: true,
             sectionCurrentLink: 'home',
-            articleCurrentLink: null
+            articleCurrentLink: null,
+            query: null
         }
     }
 
@@ -27,7 +29,8 @@ class App extends React.Component {
         if(sections.has(route)) {
             this.setState({
                 sectionCurrentLink: route.toLowerCase(),
-                articleCurrentLink: null
+                articleCurrentLink: null,
+                query: null
             })
         } else {
             if(route.indexOf('?') !== -1) {
@@ -35,11 +38,14 @@ class App extends React.Component {
                 if(action === 'article') {
                     this.setState({
                         articleCurrentLink: route.substr(route.indexOf('=')+1),
-                        sectionCurrentLink: null
+                        sectionCurrentLink: null,
+                        query: null
                     });
                 } else if(action === 'search') {
                     this.setState({
-                        articleCurrentLink: null
+                        articleCurrentLink: null,
+                        sectionCurrentLink: null,
+                        query: route.substr(route.indexOf('=')+1)
                     });
                 }
             }
@@ -55,10 +61,12 @@ class App extends React.Component {
 
     render() {
         let mainContent;
-        if(this.state.articleCurrentLink == null) {
+        if(this.state.sectionCurrentLink != null) {
             mainContent = <NewsContent nyTimesFlag={this.state.nyTimesFlag} currentLink={this.state.sectionCurrentLink}/>
-        } else {
+        } else if(this.state.articleCurrentLink != null) {
             mainContent = <ArticleDetail nyTimesFlag={this.state.nyTimesFlag} currentLink={this.state.articleCurrentLink}/>
+        } else if(this.state.query != null) {
+            mainContent = <NewsSearchContent query={this.state.query}/>
         }
 
 
