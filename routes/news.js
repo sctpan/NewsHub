@@ -88,8 +88,86 @@ router.get('/nytimes/article', function(req, res) {
         returnNews = getDetailedNyTimesNews(data)
         res.json({'news': returnNews});
     })
-
 });
+
+router.get('/search', function(req, res) {
+    let query = req.query.q;
+    Promise.all([getGuardianSearchResults(query), getNyTimesSearchResults(query)]).then((result) => {
+        res.json({'news': arrangeNews(result[0], result[1])});
+    }).catch((error) => {
+        console.log(error)
+    })
+});
+
+
+function arrangeNews(guardian, nyTimes) {
+    let newsList = [];
+    if(guardian.length === 0) {
+        newsList = newsList.concat(nyTimes);
+    } else if(nyTimes.length === 0) {
+        newsList = newsList.concat(guardian);
+    } else {
+        if(guardian.length >= 5 && nyTimes.length >= 5) {
+            newsList = newsList.concat(guardian.slice(0, 5), nyTimes.slice(0, 5));
+        } else if(guardian.length < 5 && nyTimes.length >= 5) {
+            newsList = newsList.concat(guardian.slice(0, guardian.length - 1), nyTimes.slice(0, 5));
+        } else if(guardian.length >= 5 && nyTimes.length < 5) {
+            newsList = newsList.concat(guardian.slice(0, 5), nyTimes.slice(0, nyTimes.length - 1));
+        } else {
+            newsList = newsList.concat(guardian, nyTimes);
+        }
+    }
+    return newsList;
+}
+
+
+async function getGuardianSearchResults(query) {
+    let guardianUrl = 'https://content.guardianapis.com/search';
+    let params = {
+        'q': query,
+        'api-key': guardianApiKey,
+        'show-blocks': 'all'
+    };
+    let response = await axios.get(guardianUrl, {params: params});
+    return getGuardianNews(response.data);
+}
+
+async function getNyTimesSearchResults(query) {
+    let nyTimesUrl = 'https://api.nytimes.com/svc/search/v2/articlesearch.json';
+    let params = {
+        'q': query,
+        'api-key': nyTimesApiKey
+    };
+    let response = await axios.get(nyTimesUrl, {params: params});
+    return getSearchedNyTimesNews(response.data);
+}
+
+function getSearchedNyTimesNews(data) {
+    let newsList = data.response.docs;
+    let processedNewsList = [];
+    for(var i=0; i<newsList.length; i++) {
+        let news = newsList[i];
+        let processedNews = {};
+        processedNews.title = news.headline.main;
+        let flag = false;
+        for(var j=0; j<news.multimedia.length; j++) {
+            if(checkJsonKey(news.multimedia[j], ['width', 'url']) && news.multimedia[j].width >= 2000) {
+                processedNews.image = 'https://www.nytimes.com/' + news.multimedia[j].url;
+                flag = true;
+                break;
+            }
+        }
+        if(!flag) processedNews.image = 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Nytimes_hq.jpg';
+        processedNews.date = news.pub_date;
+        processedNews.description = news.abstract;
+        processedNews.section = news.news_desk;
+        processedNews.shareUrl = news.web_url;
+        processedNews.source = 'NYTIMES';
+        processedNewsList.push(processedNews);
+        if(processedNewsList.length === 10) break;
+    }
+    return processedNewsList;
+}
 
 function getDetailedNyTimesNews(data) {
     let news = data.response.docs[0];
@@ -106,7 +184,9 @@ function getDetailedNyTimesNews(data) {
     if(!flag) processedNews.image = 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Nytimes_hq.jpg';
     processedNews.date = news.pub_date;
     processedNews.description = news.abstract;
+    processedNews.section = news.news_desk;
     processedNews.shareUrl = news.web_url;
+    processedNews.source = 'NYTIMES';
     return processedNews;
 }
 
@@ -127,8 +207,10 @@ function getDetailedGuardianNews(data) {
         processedNews.image = 'https://assets.guim.co.uk/images/eada8aa27c12fe2d5afa3a89d3fbae0d/fallback-logo.png';
     }
     processedNews.date = news.webPublicationDate;
+    processedNews.section = news.sectionId;
     processedNews.description = news.blocks.body[0].bodyTextSummary;
     processedNews.shareUrl = news.webUrl;
+    processedNews.source = 'GUARDIAN';
     return processedNews;
 }
 
@@ -173,6 +255,7 @@ function getNyTimesNews(data) {
         processedNews.date = news.published_date;
         processedNews.description = news.abstract;
         processedNews.shareUrl = news.url;
+        processedNews.source = 'NYTIMES';
         processedNewsList.push(processedNews);
         if(processedNewsList.length === 10) break;
     }
@@ -205,6 +288,7 @@ function getGuardianNews(data) {
         processedNews.date = news.webPublicationDate;
         processedNews.description = news.blocks.body[0].bodyTextSummary;
         processedNews.shareUrl = news.webUrl;
+        processedNews.source = 'GUARDIAN';
         processedNewsList.push(processedNews);
         if(processedNewsList.length === 10) break;
     }
