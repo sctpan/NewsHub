@@ -21,7 +21,12 @@ class NewsBox extends React.Component {
 
     putArticleUrl = () => {
         window.location.href = '#/article?id=' + this.props.news.id;
-    }
+        if(this.props.news.source === 'NYTIMES') {
+            this.props.getArticleSource(true);
+        } else {
+            this.props.getArticleSource(false);
+        }
+    };
 
     getSectionColor(section) {
         var backgroundColor = '#6f757b';
@@ -51,7 +56,7 @@ class NewsBox extends React.Component {
                     <span onClick={this.putArticleUrl}>{this.props.news.title}</span>
                     <button className="share-btn" onClick={this.shareNews}><IoMdShare/></button>
                 </div>
-                <img src={this.props.news.image} className="search-news-image"/>
+                <img onClick={this.putArticleUrl} src={this.props.news.image} className="search-news-image"/>
                 <div className="news-info" onClick={this.putArticleUrl}>
                     <span className="news-time">{this.convertDate(this.props.news.date)}</span>
                     <Badge className="news-category" style={this.getSectionColor(this.props.news.section)}>{this.props.news.section.toUpperCase()}</Badge>

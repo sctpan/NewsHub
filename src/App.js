@@ -10,16 +10,24 @@ class App extends React.Component {
         super();
         this.state = {
             nyTimesFlag: true,
+            articleNyTimesFlag: true,
             sectionCurrentLink: 'home',
             articleCurrentLink: null,
             query: null
         }
     }
 
+    getArticleSource = nyTimesFlag => {
+        this.setState({
+            articleNyTimesFlag: nyTimesFlag
+        });
+    };
+
 
     getSource = nyTimesFlag => {
         this.setState({
-            nyTimesFlag: nyTimesFlag
+            nyTimesFlag: nyTimesFlag,
+            articleNyTimesFlag: nyTimesFlag
         });
     };
 
@@ -64,16 +72,16 @@ class App extends React.Component {
         if(this.state.sectionCurrentLink != null) {
             mainContent = <NewsContent nyTimesFlag={this.state.nyTimesFlag} currentLink={this.state.sectionCurrentLink}/>
         } else if(this.state.articleCurrentLink != null) {
-            mainContent = <ArticleDetail nyTimesFlag={this.state.nyTimesFlag} currentLink={this.state.articleCurrentLink}/>
+            mainContent = <ArticleDetail nyTimesFlag={this.state.articleNyTimesFlag} currentLink={this.state.articleCurrentLink}/>
         } else if(this.state.query != null) {
-            mainContent = <NewsSearchContent query={this.state.query}/>
+            mainContent = <NewsSearchContent getArticleSource={this.getArticleSource} query={this.state.query}/>
         }
 
 
 
         return (
             <div>
-                <NewsNavbar getSource={this.getSource} activeSection={this.state.sectionCurrentLink}/>
+                <NewsNavbar nyTimesFlag={this.state.nyTimesFlag} getSource={this.getSource} activeSection={this.state.sectionCurrentLink}/>
                 {mainContent}
             </div>
         );

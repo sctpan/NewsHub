@@ -17,7 +17,7 @@ class NewsSearchContent extends React.Component {
 
     getResults() {
         let url = 'news/search'
-        NewsFetcher.get(url, {'query': this.props.query})
+        NewsFetcher.get(url, {'q': this.props.query})
             .then(data => {
                 this.setState({
                     newsList: data.news
@@ -45,7 +45,7 @@ class NewsSearchContent extends React.Component {
                 <Row>
                     {this.state.newsList.map((news, index) =>
                         <Col md={3}>
-                            <NewsBox news={news} key={index} index={index} shareNews={this.shareNews}/>
+                            <NewsBox news={news} key={index} index={index} shareNews={this.shareNews} getArticleSource={this.props.getArticleSource}/>
                         </Col>
                     )}
                 </Row>

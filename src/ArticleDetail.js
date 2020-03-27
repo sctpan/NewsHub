@@ -4,7 +4,7 @@ import NewsFetcher from "./NewsFetcher";
 import {Row, Col, Modal} from "react-bootstrap";
 import {EmailIcon, FacebookIcon, TwitterIcon, FacebookShareButton, TwitterShareButton, EmailShareButton} from 'react-share'
 import {IconContext} from "react-icons";
-import {FaRegBookmark} from 'react-icons/fa'
+import {FaRegBookmark, FaBookmark} from 'react-icons/fa'
 import {IoIosArrowDown, IoIosArrowUp} from 'react-icons/io'
 import BounceLoader from "react-spinners/BounceLoader";
 import {css} from "@emotion/core";
@@ -17,6 +17,7 @@ class ArticleDetail extends React.Component {
         news: {},
         loading: true,
         showModal: false,
+        saved: false
     };
 
     loaderStyle = css`
@@ -84,8 +85,54 @@ class ArticleDetail extends React.Component {
         downBtn.style.display = 'block';
     }
 
+    saveOrRemoveNews = () => {
+        if(this.state.saved) {
+            this.setState({
+                saved: false
+            });
+            this.removeNews();
+        } else {
+            this.setState({
+                saved: true
+            });
+            this.saveNews();
+        }
+    };
+
+    saveNews = () => {
+        if(localStorage.getItem("news") === null) {
+            let newsList = [];
+            newsList.push(this.state.news);
+            localStorage.setItem("news", JSON.stringify({'news': newsList}));
+        } else {
+            let news = localStorage.getItem("news");
+            let newsList = JSON.parse(news).news;
+            newsList.push(this.state.news);
+            localStorage.setItem("news", JSON.stringify({'news': newsList}));
+        }
+    };
+
+    removeNews = () => {
+        if(localStorage.getItem("news") === null) {
+            let newsList = [];
+            localStorage.setItem("news", JSON.stringify({'news': newsList}));
+        } else {
+            let news = localStorage.getItem("news");
+            let newsList = JSON.parse(news).news;
+
+            let index = newsList.findIndex(news => news.id === this.state.news.id);
+            if(index != -1) {
+                newsList.splice(index, 1);
+            }
+            localStorage.setItem("news", JSON.stringify({'news': newsList}));
+        }
+    };
+
+
 
     render() {
+        let bookmark = this.state.saved ? <FaBookmark size={26}/> : <FaRegBookmark size={26}/>;
+
         if(this.state.loading) {
             return (
                 <div className="loader">
@@ -108,16 +155,17 @@ class ArticleDetail extends React.Component {
                         <div className="detailed-news-info">
                             <span className="detailed-news-time">{this.convertDate(this.state.news.date)}</span>
                                 <IconContext.Provider value={{ color: "red" }}>
-                                    <button className="detailed-news-bookmark">
+
                                         <OverlayTrigger
                                             placement="top"
                                             overlay={
                                                 <Tooltip>Bookmark</Tooltip>
                                             }
                                         >
-                                            <FaRegBookmark size={26}/>
+                                            <button className="detailed-news-bookmark" onClick={this.saveOrRemoveNews}>
+                                                {bookmark}
+                                            </button>
                                         </OverlayTrigger>
-                                    </button>
                                 </IconContext.Provider>
                             <span className="detailed-news-share">
                                  <OverlayTrigger

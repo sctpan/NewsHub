@@ -23,7 +23,14 @@ class NewsNavbar extends React.Component {
     }
 
     render() {
-
+        let newsSwitch = <>
+            <span className="switchSpan">NYTimes</span>
+            <NewsSwitch nyTimesFlag={this.props.nyTimesFlag} getSource={this.getSource}/>
+            <span className="switchSpan">Guardian</span>
+        </>;
+        if(this.getSectionKey(this.props.activeSection) == -1) {
+            newsSwitch = null
+        }
         return (
             <Navbar className="navbar" expand="lg" bg="dark" variant="dark">
                 <Col md={2}>
@@ -47,9 +54,10 @@ class NewsNavbar extends React.Component {
                                     <FaRegBookmark />
                                 </div>
                             </IconContext.Provider>
-                            <span className="switchSpan">NYTimes</span>
-                            <NewsSwitch getSource={this.getSource}/>
-                            <span className="switchSpan">Guardian</span>
+                                {/*<span className="switchSpan">NYTimes</span>*/}
+                                {/*<NewsSwitch getSource={this.getSource}/>*/}
+                                {/*<span className="switchSpan">Guardian</span>*/}
+                            {newsSwitch}
 
                         </Nav>
                     </Navbar.Collapse>

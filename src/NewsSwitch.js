@@ -5,7 +5,7 @@ import Switch from "react-switch";
 class NewsSwitch extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { checked: false };
+        this.state = { checked: !this.props.nyTimesFlag };
         this.handleChange = this.handleChange.bind(this);
     }
 
