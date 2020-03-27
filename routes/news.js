@@ -148,6 +148,7 @@ function getSearchedNyTimesNews(data) {
     for(var i=0; i<newsList.length; i++) {
         let news = newsList[i];
         let processedNews = {};
+        processedNews.id = news.web_url;
         processedNews.title = news.headline.main;
         let flag = false;
         for(var j=0; j<news.multimedia.length; j++) {
@@ -172,6 +173,7 @@ function getSearchedNyTimesNews(data) {
 function getDetailedNyTimesNews(data) {
     let news = data.response.docs[0];
     let processedNews = {};
+    processedNews.id = news.web_url;
     processedNews.title = news.headline.main;
     let flag = false;
     for(var j=0; j<news.multimedia.length; j++) {
@@ -193,6 +195,7 @@ function getDetailedNyTimesNews(data) {
 function getDetailedGuardianNews(data) {
     let news = data.response.content;
     let processedNews = {};
+    processedNews.id = news.id
     processedNews.title = news.webTitle;
     if(checkJsonKeyHelper(news.blocks, 'main') && checkJsonKeyHelper(news.blocks.main, 'elements')
         && news.blocks.main.elements.length > 0 && checkJsonKeyHelper(news.blocks.main.elements[0], 'assets')
