@@ -5,10 +5,15 @@ import AsyncSearchBox from "./AsyncSearchBox";
 import NewsSwitch from "./NewsSwitch";
 import './styles.css'
 import {IconContext} from 'react-icons'
-import {FaRegBookmark} from 'react-icons/fa'
+import {FaRegBookmark, FaBookmark} from 'react-icons/fa'
 
 
 class NewsNavbar extends React.Component {
+    state = {
+        fav: false
+    };
+
+
     getSource = nyTimesFlag => {
         console.log("nyTimesFlag: " + nyTimesFlag);
         this.props.getSource(nyTimesFlag);
@@ -20,9 +25,24 @@ class NewsNavbar extends React.Component {
             return -1;
         }
         return links[section];
-    }
+    };
+
+    handleChange = () => {
+        if(this.state.fav) {
+            this.setState({
+                fav: false
+            })
+        } else {
+            this.setState({
+                fav: true
+            })
+        }
+
+       // window.location.href = '#/search?q=' + selectedOption.value;
+    };
 
     render() {
+        let bookmark = this.state.fav ? <FaBookmark size={22}/> : <FaRegBookmark size={22}/>;
         let newsSwitch = <>
             <span className="switchSpan">NYTimes</span>
             <NewsSwitch nyTimesFlag={this.props.nyTimesFlag} getSource={this.getSource}/>
@@ -50,13 +70,10 @@ class NewsNavbar extends React.Component {
                         </Nav>
                         <Nav>
                             <IconContext.Provider value={{ color: "white" }}>
-                                <div className="bookmark">
-                                    <FaRegBookmark />
+                                <div className="bookmark" onClick={this.handleChange}>
+                                        {bookmark}
                                 </div>
                             </IconContext.Provider>
-                                {/*<span className="switchSpan">NYTimes</span>*/}
-                                {/*<NewsSwitch getSource={this.getSource}/>*/}
-                                {/*<span className="switchSpan">Guardian</span>*/}
                             {newsSwitch}
 
                         </Nav>

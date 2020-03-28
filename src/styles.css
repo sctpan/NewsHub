@@ -10,6 +10,10 @@
     margin-right: 5px;
 }
 
+.bookmark:hover {
+    cursor: pointer;
+}
+
 .navbar {
     background: linear-gradient(to right, #202f51, 80%, #445ea7);
 }
@@ -167,6 +171,15 @@
     border: 0;
     outline: none !important;
     background-color: white;
+}
+
+
+.toast-container {
+    color: black !important;
+}
+
+.Toastify__toast--default {
+    color: black !important;
 }
 
 .detailed-news-description {

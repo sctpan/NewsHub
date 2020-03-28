@@ -10,6 +10,8 @@ import BounceLoader from "react-spinners/BounceLoader";
 import {css} from "@emotion/core";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import NewsCommentBox from "./NewsCommentBox";
+import { toast, ToastContainer, Zoom} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 class ArticleDetail extends React.Component {
@@ -37,8 +39,30 @@ class ArticleDetail extends React.Component {
                 this.setState({
                     loading: false
                 });
+                this.setSaved();
             });
     }
+
+    setSaved = () => {
+        if(localStorage.getItem("news") === null) {
+            this.setState({
+                saved: false
+            })
+        } else {
+            let news = localStorage.getItem("news");
+            let newsList = JSON.parse(news).news;
+            let index = newsList.findIndex(news => news.id === this.state.news.id);
+            if(index != -1) {
+                this.setState({
+                    saved: true
+                })
+            } else {
+                this.setState({
+                    saved: false
+                })
+            }
+        }
+    };
 
     convertDate(date) {
         date = new Date(date);
@@ -56,12 +80,7 @@ class ArticleDetail extends React.Component {
             url = 'news/nytimes/article';
         }
         this.getNews(url, this.props.currentLink);
-       // commentBox('5760240494575616-proj', { defaultBoxId: this.props.currentLink });
     }
-
-    // componentWillUnmount() {
-    //     commentBox('5760240494575616-proj', { defaultBoxId: this.props.currentLink });
-    // }
 
     scrollDown() {
         let short = document.getElementsByClassName('detailed-news-description')[0];
@@ -110,6 +129,7 @@ class ArticleDetail extends React.Component {
             newsList.push(this.state.news);
             localStorage.setItem("news", JSON.stringify({'news': newsList}));
         }
+        this.notify("Saving " + this.state.news.title);
     };
 
     removeNews = () => {
@@ -126,13 +146,27 @@ class ArticleDetail extends React.Component {
             }
             localStorage.setItem("news", JSON.stringify({'news': newsList}));
         }
+        this.notify("Removing - " + this.state.news.title);
     };
+
+    notify = (msg) => {
+        console.log(msg);
+        toast(msg, {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false
+        });
+
+        console.log("after toast")
+    }
 
 
 
     render() {
         let bookmark = this.state.saved ? <FaBookmark size={26}/> : <FaRegBookmark size={26}/>;
-
         if(this.state.loading) {
             return (
                 <div className="loader">
@@ -163,6 +197,7 @@ class ArticleDetail extends React.Component {
                                             }
                                         >
                                             <button className="detailed-news-bookmark" onClick={this.saveOrRemoveNews}>
+                                                <ToastContainer transition={Zoom} />
                                                 {bookmark}
                                             </button>
                                         </OverlayTrigger>
@@ -200,13 +235,9 @@ class ArticleDetail extends React.Component {
                                       <EmailIcon className="social-share-icon" size={28} round={true}/>
                                   </EmailShareButton>
                                 </OverlayTrigger>
-
-
                         </span>
                         </div>
-
                         <img className="detailed-news-image" src={this.state.news.image}/>
-
                         <div className="detailed-news-content">
                             <p className="detailed-news-description">
                                 {this.state.news.description}
@@ -229,7 +260,6 @@ class ArticleDetail extends React.Component {
                     </div>
                     <NewsCommentBox id={this.props.currentLink}/>
                 </div>
-
             );
         }
     }
