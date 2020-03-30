@@ -9,10 +9,6 @@ import {FaRegBookmark, FaBookmark} from 'react-icons/fa'
 
 
 class NewsNavbar extends React.Component {
-    state = {
-        fav: false
-    };
-
 
     getSource = nyTimesFlag => {
         console.log("nyTimesFlag: " + nyTimesFlag);
@@ -28,21 +24,15 @@ class NewsNavbar extends React.Component {
     };
 
     handleChange = () => {
-        if(this.state.fav) {
-            this.setState({
-                fav: false
-            })
+        if(this.props.fav) {
+            window.location.href = '#/Home';
         } else {
-            this.setState({
-                fav: true
-            })
+            window.location.href = '#/favorites';
         }
-
-       // window.location.href = '#/search?q=' + selectedOption.value;
     };
 
     render() {
-        let bookmark = this.state.fav ? <FaBookmark size={22}/> : <FaRegBookmark size={22}/>;
+        let bookmark = this.props.fav ? <FaBookmark size={22}/> : <FaRegBookmark size={22}/>;
         let newsSwitch = <>
             <span className="switchSpan">NYTimes</span>
             <NewsSwitch nyTimesFlag={this.props.nyTimesFlag} getSource={this.getSource}/>
@@ -54,7 +44,7 @@ class NewsNavbar extends React.Component {
         return (
             <Navbar className="navbar" expand="lg" bg="dark" variant="dark">
                 <Col md={2}>
-                    <AsyncSearchBox/>
+                    <AsyncSearchBox refresh={this.props.search}/>
                 </Col>
 
                 <Col>

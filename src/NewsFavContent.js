@@ -1,9 +1,8 @@
 import React from 'react';
-import './styles.css'
 import NewsFetcher from "./NewsFetcher";
+import {Col, Modal, Row} from "react-bootstrap";
 import NewsBox from "./NewsBox";
-import NewsBar from "./NewsBar";
-import {Row, Col, Modal} from "react-bootstrap";
+import NewsSearchContent from "./NewsSearchContent";
 import {
     EmailIcon,
     EmailShareButton,
@@ -13,11 +12,10 @@ import {
     TwitterShareButton
 } from "react-share";
 
-class NewsSearchContent extends React.Component {
+class NewsFavContent extends React.Component {
     state = {
         newsList: [],
-        chosenNewsIndex: 0,
-        showModal: false
+        chosenNewsIndex: 0
     };
 
     constructor(props) {
@@ -30,17 +28,17 @@ class NewsSearchContent extends React.Component {
         });
     };
 
-    getResults() {
-        let url = 'news/search'
-        NewsFetcher.get(url, {'q': this.props.query})
-            .then(data => {
-                this.setState({
-                    newsList: data.news
-                });
-                console.log(this.state.newsList);
-            });
-
-    }
+    getResults = () => {
+        if(localStorage.getItem("news") != null) {
+            let news = localStorage.getItem("news");
+            let newsList = JSON.parse(news).news;
+            this.setState({
+                newsList: newsList
+            })
+            console.log("favorites: " + newsList);
+            console.log(newsList[0]);
+        }
+    };
 
     componentDidMount() {
         this.getResults();
@@ -51,6 +49,14 @@ class NewsSearchContent extends React.Component {
             chosenNewsIndex: index,
             showModal: true
         })
+    };
+
+    removeNews = index => {
+        let newsList = this.state.newsList;
+        newsList.splice(index, 1);
+        this.setState({
+            newsList: newsList
+        });
     };
 
 
@@ -85,22 +91,24 @@ class NewsSearchContent extends React.Component {
                 </Modal.Body>
             </Modal>;
         }
+        let content = <div className="no-results-title">You have no saved articles</div>;
+        if(this.state.newsList.length > 0) {
+            content = <div className="results-title">Favorites</div>
+        }
         return (
-
             <div className="search-news">
+                {content}
                 {showModal}
-                <div className="results-title">Results</div>
                 <Row>
                     {this.state.newsList.map((news, index) =>
                         <Col md={3}>
-                            <NewsBox fav={false} news={news} key={index} index={index} shareNews={this.shareNews} getArticleSource={this.props.getArticleSource}/>
+                            <NewsBox fav={true} news={news} key={index} index={index} shareNews={this.shareNews} removeNews={this.removeNews} getArticleSource={this.props.getArticleSource}/>
                         </Col>
                     )}
                 </Row>
-
             </div>
         );
     }
 }
 
-export default NewsSearchContent;
+export default NewsFavContent;

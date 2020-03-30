@@ -159,9 +159,7 @@ class ArticleDetail extends React.Component {
             pauseOnHover: false,
             draggable: false
         });
-
-        console.log("after toast")
-    }
+    };
 
 
 

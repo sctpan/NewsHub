@@ -5,6 +5,10 @@ import {IoMdShare} from 'react-icons/io'
 import test from './test.jpg'
 
 class NewsBar extends React.Component {
+    state = {
+        fav: false
+    };
+
     constructor(props) {
         super(props);
     }

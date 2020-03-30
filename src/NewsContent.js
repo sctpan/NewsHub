@@ -23,7 +23,7 @@ class NewsContent extends React.Component {
         this.setState({
             showModal: false
         });
-    }
+    };
 
     getNews(url, section) {
         this.setState({

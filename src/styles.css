@@ -72,6 +72,7 @@
 
 .news-category {
     float: right;
+    margin-left: 8px;
 }
 
 .loader {
@@ -186,7 +187,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 6;
     -webkit-box-orient: vertical;
     margin-bottom: 15px;
 }
@@ -214,8 +215,16 @@
 }
 
 .results-title {
+    margin-top: 10px;
     font-size: 28px;
     font-weight: bold;
+}
+
+.no-results-title {
+    margin-top: 10px;
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
 }
 
 .search-news {

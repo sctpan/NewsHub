@@ -11,8 +11,22 @@ class AsyncSearchBox extends React.Component {
     }
 
     state = {
-        inputValue: "",
+        inputValue: '',
+        value: 12,
+        key: 0
     };
+
+    componentDidUpdate(prevProps) {
+        if (this.props.refresh !== prevProps.refresh) {
+            if(!(this.props.refresh === true && prevProps.refresh === false)) {
+                this.setState({
+                    key: this.state.key + 1
+                })
+            }
+        }
+    }
+
+
 
     autoSuggest = async () => {
         let value = this.state.inputValue;
@@ -46,17 +60,21 @@ class AsyncSearchBox extends React.Component {
     };
 
     handleChange = (selectedOption) => {
+        this.setState({
+            value: selectedOption.value
+        });
         window.location.href = '#/search?q=' + selectedOption.value;
     };
 
 
     render() {
+        console.log("search box rendered! " + this.state.value);
         return (
-            <AsyncSelect
+            <AsyncSelect key={this.state.key}
                 loadOptions={this.autoSuggest}
                 onInputChange={this.handleSearchChange}
                 onChange={this.handleChange}
-                placeholder={"Enter Keyword .."}
+                placeholder="Enter Keyword .."
             />
         );
     }
