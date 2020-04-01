@@ -67,12 +67,12 @@ class NewsSearchContent extends React.Component {
                     </div>
                     <Row>
                         <Col className="social-share-btn" md={4}>
-                            <FacebookShareButton className="social-share-btn" url={this.state.newsList[this.state.chosenNewsIndex].shareUrl}>
+                            <FacebookShareButton className="social-share-btn" url={this.state.newsList[this.state.chosenNewsIndex].shareUrl} hashtag={'#CSCI_571_NewsApp'}>
                                 <FacebookIcon className="social-share-icon" size={50} round={true}/>
                             </FacebookShareButton>
                         </Col>
                         <Col className="social-share-btn" md={4}>
-                            <TwitterShareButton className="social-share-btn" url={this.state.newsList[this.state.chosenNewsIndex].shareUrl}>
+                            <TwitterShareButton className="social-share-btn" url={this.state.newsList[this.state.chosenNewsIndex].shareUrl} hashtags={['CSCI_571_NewsApp']}>
                                 <TwitterIcon className="social-share-icon" size={50} round={true}/>
                             </TwitterShareButton>
                         </Col>

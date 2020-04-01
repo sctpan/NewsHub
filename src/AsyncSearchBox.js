@@ -71,6 +71,7 @@ class AsyncSearchBox extends React.Component {
         console.log("search box rendered! " + this.state.value);
         return (
             <AsyncSelect key={this.state.key}
+                         noOptionsMessage={()=>'No Match'}
                 loadOptions={this.autoSuggest}
                 onInputChange={this.handleSearchChange}
                 onChange={this.handleChange}

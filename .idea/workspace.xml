@@ -2,17 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8cd05802-6ba9-4e11-a4c2-924a8128bc53" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/NewsFavContent.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ArticleDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ArticleDetail.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AsyncSearchBox.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/AsyncSearchBox.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NewsBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/NewsBar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NewsBox.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/NewsBox.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/NewsContent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/NewsContent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NewsNavbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/NewsNavbar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NewsFavContent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/NewsFavContent.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/NewsSearchContent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/NewsSearchContent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +87,9 @@
       <workItem from="1585338499957" duration="8328000" />
       <workItem from="1585433130888" duration="5978000" />
       <workItem from="1585440915663" duration="2436000" />
-      <workItem from="1585514776467" duration="12842000" />
+      <workItem from="1585514776467" duration="15934000" />
+      <workItem from="1585598132785" duration="1333000" />
+      <workItem from="1585687054121" duration="4407000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1584399480644</created>
@@ -165,7 +161,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585439059310</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="update">
+      <created>1585527696932</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1585527696932</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -180,10 +183,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="178" key="#ESLint/0.0.1920.1040@0.0.1920.1040" timestamp="1584914925475" />
-    <state x="585" y="114" key="CommitChangelistDialog2" timestamp="1585439058154">
+    <state x="585" y="114" key="CommitChangelistDialog2" timestamp="1585527695642">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="585" y="114" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1585439058154" />
+    <state x="585" y="114" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1585527695642" />
     <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1585517229518">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -204,6 +207,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="162" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1584308924181" />
+    <state x="656" y="118" width="607" height="804" key="find.popup" timestamp="1585699078487">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="656" y="118" width="607" height="804" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1585699078487" />
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1584574975151">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
