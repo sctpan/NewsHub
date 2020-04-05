@@ -116,17 +116,17 @@ class NewsContent extends React.Component {
                             Share via
                         </div>
                         <Row>
-                            <Col className="social-share-btn" md={4}>
+                            <Col className="social-share-btn" md={4} xs={4}>
                                 <FacebookShareButton className="social-share-btn" url={this.state.newsList[this.state.chosenNewsIndex].shareUrl} hashtag={'#CSCI_571_NewsApp'}>
                                     <FacebookIcon className="social-share-icon" size={50} round={true}/>
                                 </FacebookShareButton>
                             </Col>
-                            <Col className="social-share-btn" md={4}>
+                            <Col className="social-share-btn" md={4} xs={4}>
                                 <TwitterShareButton className="social-share-btn" url={this.state.newsList[this.state.chosenNewsIndex].shareUrl} hashtags={['CSCI_571_NewsApp']}>
                                     <TwitterIcon className="social-share-icon" size={50} round={true}/>
                                 </TwitterShareButton>
                             </Col>
-                            <Col className="social-share-btn" md={4}>
+                            <Col className="social-share-btn" md={4} xs={4}>
                                 <EmailShareButton className="social-share-btn" url={this.state.newsList[this.state.chosenNewsIndex].shareUrl} subject={'#CSCI_571_NewsApp'}>
                                     <EmailIcon className="social-share-icon" size={50} round={true}/>
                                 </EmailShareButton>
@@ -139,7 +139,7 @@ class NewsContent extends React.Component {
                 <div className="news">
                     {showModal}
                     {this.state.newsList.map((news, index) =>
-                        <NewsBar news={news} key={index} index={index} shareNews={this.shareNews}/>
+                        <NewsBar news={news} key={index} index={index} getArticleSource={this.props.getArticleSource} shareNews={this.shareNews}/>
                     )}
                 </div>
             )

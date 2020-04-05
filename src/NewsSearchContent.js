@@ -12,17 +12,24 @@ import {
     TwitterIcon,
     TwitterShareButton
 } from "react-share";
+import BounceLoader from "react-spinners/BounceLoader";
+import { css } from '@emotion/core'
 
 class NewsSearchContent extends React.Component {
     state = {
         newsList: [],
         chosenNewsIndex: 0,
-        showModal: false
+        showModal: false,
+        loading: true
     };
 
     constructor(props) {
         super(props);
     }
+
+    loaderStyle = css`
+        margin: 0 auto;
+    `
 
     handleClose= () => {
         this.setState({
@@ -31,11 +38,17 @@ class NewsSearchContent extends React.Component {
     };
 
     getResults() {
+        this.setState({
+            loading: true
+        });
         let url = 'news/search'
         NewsFetcher.get(url, {'q': this.props.query})
             .then(data => {
                 this.setState({
                     newsList: data.news
+                });
+                this.setState({
+                    loading: false
                 });
                 console.log(this.state.newsList);
             });
@@ -44,6 +57,12 @@ class NewsSearchContent extends React.Component {
 
     componentDidMount() {
         this.getResults();
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(prevProps.query != this.props.query) {
+            this.getResults();
+        }
     }
 
     shareNews = index => {
@@ -85,21 +104,37 @@ class NewsSearchContent extends React.Component {
                 </Modal.Body>
             </Modal>;
         }
-        return (
 
-            <div className="search-news">
-                {showModal}
-                <div className="results-title">Results</div>
-                <Row>
-                    {this.state.newsList.map((news, index) =>
-                        <Col md={3}>
-                            <NewsBox fav={false} news={news} key={index} index={index} shareNews={this.shareNews} getArticleSource={this.props.getArticleSource}/>
-                        </Col>
-                    )}
-                </Row>
+        if(this.state.loading) {
+            return (
+                <div className="loader">
+                    <BounceLoader
+                        css={this.loaderStyle}
+                        size={36}
+                        color={'#364cbc'}
+                        loading={this.state.loading}
+                    />
+                    <div className="loader-text">Loading</div>
+                </div>
 
-            </div>
-        );
+            );
+        } else {
+            return (
+                <div className="search-news">
+                    {showModal}
+                    <div className="results-title">Results</div>
+                    <Row>
+                        {this.state.newsList.map((news, index) =>
+                            <Col md={3}>
+                                <NewsBox fav={false} news={news} key={index} index={index} shareNews={this.shareNews}
+                                         getArticleSource={this.props.getArticleSource}/>
+                            </Col>
+                        )}
+                    </Row>
+
+                </div>
+            );
+        }
     }
 }
 

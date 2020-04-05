@@ -43,11 +43,13 @@ class NewsNavbar extends React.Component {
         }
         return (
             <Navbar className="navbar" expand="lg" bg="dark" variant="dark">
-                <Col md={2}>
-                    <AsyncSearchBox refresh={this.props.search}/>
-                </Col>
 
-                <Col>
+                <AsyncSearchBox refresh={this.props.search}/>
+
+
+
+
+
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="mr-auto" activeKey={this.getSectionKey(this.props.activeSection)}>
@@ -69,7 +71,7 @@ class NewsNavbar extends React.Component {
                         </Nav>
                     </Navbar.Collapse>
 
-                </Col>
+
 
 
             </Navbar>

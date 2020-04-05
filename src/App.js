@@ -46,7 +46,7 @@ class App extends React.Component {
 
 
     getRoute = route => {
-        console.log(route);
+        console.log("route changed: " + route);
         let sections = new Set(['Home', 'World', 'Politics', 'Business', 'Technology', 'Sports']);
         if(sections.has(route)) {
             this.setState({
@@ -64,6 +64,7 @@ class App extends React.Component {
                         query: null
                     });
                 } else if(action === 'search') {
+                    console.log("query changed: " + route.substr(route.indexOf('=')+1))
                     this.setState({
                         articleCurrentLink: null,
                         sectionCurrentLink: null,
@@ -99,12 +100,13 @@ class App extends React.Component {
         if(this.state.sectionCurrentLink != null) {
             fav = false;
             search = false;
-            mainContent = <NewsContent nyTimesFlag={this.state.nyTimesFlag} currentLink={this.state.sectionCurrentLink}/>
+            mainContent = <NewsContent nyTimesFlag={this.state.nyTimesFlag} getArticleSource={this.getArticleSource} currentLink={this.state.sectionCurrentLink}/>
         } else if(this.state.articleCurrentLink != null) {
             fav = false;
             search = false;
             mainContent = <ArticleDetail nyTimesFlag={this.state.articleNyTimesFlag} currentLink={this.state.articleCurrentLink}/>
         } else if(this.state.query != null) {
+            console.log("query page rendered!")
             fav = false;
             search = true;
             mainContent = <NewsSearchContent getArticleSource={this.getArticleSource} query={this.state.query}/>

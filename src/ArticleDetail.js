@@ -19,7 +19,8 @@ class ArticleDetail extends React.Component {
         news: {},
         loading: true,
         showModal: false,
-        saved: false
+        saved: false,
+        showArrow: true
     };
 
     loaderStyle = css`
@@ -40,6 +41,7 @@ class ArticleDetail extends React.Component {
                     loading: false
                 });
                 this.setSaved();
+                this.showOrHideArrow();
             });
     }
 
@@ -63,6 +65,24 @@ class ArticleDetail extends React.Component {
             }
         }
     };
+
+    showOrHideArrow = () => {
+        let words = document.getElementsByClassName('detailed-news-description')[0];
+        let style = window.getComputedStyle(words);
+        let height = parseInt(style.height.replace('px',''));
+        let lineHeight = parseInt(style.lineHeight.replace('px', ''));
+        let lines = height / lineHeight;
+        console.log("article lines: " + lines);
+        if(lines >= 6) {
+            this.setState({
+                showArrow: true
+            })
+        } else {
+            this.setState({
+                showArrow: false
+            })
+        }
+    }
 
     convertDate(date) {
         date = new Date(date);
@@ -165,6 +185,12 @@ class ArticleDetail extends React.Component {
 
     render() {
         let bookmark = this.state.saved ? <FaBookmark size={26}/> : <FaRegBookmark size={26}/>;
+        let arrow = this.state.showArrow ?  <button className="detailed-news-content-scroll-btn down-btn" onClick={this.scrollDown}>
+            <IoIosArrowDown size={24}/>
+        </button> : null;
+        let arrowHolder = this.state.showArrow ? <button className="invisible">
+            <IoIosArrowDown size={24}/>
+        </button> : null;
         if(this.state.loading) {
             return (
                 <div className="loader">
@@ -244,12 +270,8 @@ class ArticleDetail extends React.Component {
                                 {this.state.news.description}
                             </p>
                             <div className="detailed-news-content-scroll">
-                                <button className="invisible">
-                                    <IoIosArrowDown size={24}/>
-                                </button>
-                                <button className="detailed-news-content-scroll-btn down-btn" onClick={this.scrollDown}>
-                                    <IoIosArrowDown size={24}/>
-                                </button>
+                                {arrowHolder}
+                                {arrow}
                                 <button className="detailed-news-content-scroll-btn up-btn" onClick={this.scrollUp}>
                                     <IoIosArrowUp size={24}/>
                                 </button>

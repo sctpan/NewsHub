@@ -23,6 +23,11 @@ class NewsBar extends React.Component {
     }
 
     putArticleUrl = () => {
+        if(this.props.news.source === 'NYTIMES') {
+            this.props.getArticleSource(true);
+        } else {
+            this.props.getArticleSource(false);
+        }
         window.location.href = '#/article?id=' + this.props.news.id;
     }
 
