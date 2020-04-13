@@ -54,6 +54,28 @@ router.get('/guardian', function(req, res) {
     })
 });
 
+router.get('/guardian/newest', function(req, res) {
+   let guardianUrl = 'https://content.guardianapis.com/search'
+    let params = {
+       'api-key': guardianApiKey,
+        'orderby': 'newest',
+        'show-fields': 'starRating,headline,thumbnail,short-url',
+        'page-size': 15
+    };
+   let data;
+   let returnNews;
+   axios.get(guardianUrl, {
+       params: params
+   }).then(function(response) {
+       data = response.data;
+       returnNews = getGuardianLatestNews(data);
+       res.json({'news': returnNews});
+   })
+});
+
+
+
+
 router.get('/guardian/article', function(req, res) {
     let guardianUrl = 'https://content.guardianapis.com/'
     let articleId = req.query.id;
@@ -217,6 +239,8 @@ function getDetailedGuardianNews(data) {
     return processedNews;
 }
 
+
+
 function checkJsonKey(json, keys) {
     for(var i=0; i<keys.length; i++) {
         if(!checkJsonKeyHelper(json, keys[i])) {
@@ -296,6 +320,49 @@ function getGuardianNews(data) {
         if(processedNewsList.length === 10) break;
     }
     return processedNewsList;
+}
+
+function getGuardianLatestNews(data) {
+    let newsList = data.response.results;
+    let processedNewsList = [];
+    for(var i=0; i<newsList.length; i++) {
+        let news = newsList[i];
+        if(!checkJsonKey(news, ['id', 'webTitle', 'sectionName', 'webPublicationDate', 'webUrl']))
+           continue;
+        let processedNews = {};
+        processedNews.id = news.id;
+        processedNews.title = news.webTitle;
+        processedNews.section = news.sectionName;
+        processedNews.date = news.webPublicationDate;
+        processedNews.shareUrl = news.webUrl;
+        processedNews.timeDiff = getTimeDiff(news.webPublicationDate);
+        if(checkJsonKeyHelper(news, 'fields') && checkJsonKeyHelper(news.fields, 'thumbnail')) {
+            processedNews.image = news.fields.thumbnail
+        } else {
+            processedNews.image = "unavailable"
+        }
+        processedNewsList.push(processedNews);
+        if(processedNewsList.length === 10) break;
+    }
+    return processedNewsList;
+}
+
+function getTimeDiff(dateStr) {
+    let newsDate = new Date(dateStr);
+    let now = new Date();
+    let duration = now - newsDate;
+    seconds = Math.floor((duration / 1000) );
+    minutes = Math.floor(duration / (1000 * 60));
+    hours = Math.floor(duration / (1000 * 60 * 60));
+    let res = "";
+    if(hours >= 1) {
+        res = res + hours + "h ago";
+    } else if(minutes >= 1) {
+        res = res + minutes + "m ago";
+    } else {
+        res = res + seconds + "s ago";
+    }
+    return res;
 }
 
 module.exports = router;
