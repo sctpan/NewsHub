@@ -1,9 +1,30 @@
 var express = require('express');
 var router = express.Router();
 const axios = require('axios');
+const googleTrends = require('google-trends-api');
 
 const nyTimesApiKey = 'BHkJfhRxGIACUgnwlKOuqmrUUOBASJ3F';
 const guardianApiKey = '43326aea-0a7a-45e4-a0f6-7fc14af48780';
+
+router.get('/trend', function(req, res) {
+    let keyword = req.query.keyword;
+    let startDate = new Date("2019-06-01");
+    googleTrends.interestOverTime({keyword: keyword, startTime: startDate})
+        .then(function(result) {
+            result = JSON.parse(result);
+            let data = result.default.timelineData;
+            let returnData = [];
+            for(var i=0; i<data.length; i++) {
+                returnData.push(data[i].value[0])
+            }
+            res.json({"data": returnData});
+        })
+        .catch(function(err) {
+            console.log(err);
+        })
+});
+
+
 
 router.get('/nytimes', function(req, res) {
     let nyTimesUrl = 'https://api.nytimes.com/svc/topstories/v2/';
@@ -214,7 +235,17 @@ function getDetailedNyTimesNews(data) {
     return processedNews;
 }
 
+function convertDate(dateStr) {
+    var date = new Date(dateStr)
+    const months = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    let day = date.getDate();
+    day = day < 10 ? "0" + day : day;
+    let formatted_date = day + " " + months[date.getMonth()] + " " + date.getFullYear();
+    return formatted_date
+}
+
 function getDetailedGuardianNews(data) {
+    console.log(convertDate("2020-04-04T21:43:32Z"));
     let news = data.response.content;
     let processedNews = {};
     processedNews.id = news.id
@@ -231,9 +262,16 @@ function getDetailedGuardianNews(data) {
     } else {
         processedNews.image = 'https://assets.guim.co.uk/images/eada8aa27c12fe2d5afa3a89d3fbae0d/fallback-logo.png';
     }
-    processedNews.date = news.webPublicationDate;
+    processedNews.date = convertDate(news.webPublicationDate);
     processedNews.section = news.sectionId;
-    processedNews.description = news.blocks.body[0].bodyTextSummary;
+    let bodyArray = news.blocks.body;
+    let html = "";
+    for(var i=0; i<bodyArray.length; i++) {
+        if(checkJsonKeyHelper(bodyArray[i], 'bodyHtml')) {
+            html = html + bodyArray[i].bodyHtml;
+        }
+    }
+    processedNews.description = html;
     processedNews.shareUrl = news.webUrl;
     processedNews.source = 'GUARDIAN';
     return processedNews;
