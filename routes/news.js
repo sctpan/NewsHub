@@ -11,6 +11,7 @@ router.get('/trend', function(req, res) {
     let startDate = new Date("2019-06-01");
     googleTrends.interestOverTime({keyword: keyword, startTime: startDate})
         .then(function(result) {
+            console.log(result)
             result = JSON.parse(result);
             let data = result.default.timelineData;
             let returnData = [];
