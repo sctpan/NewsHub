@@ -35,7 +35,7 @@ class AsyncSearchBox extends React.Component {
                 `https://yifan-pan.cognitiveservices.azure.com/bing/v7.0/suggestions?mkt=en-US&q=${value}`,
                 {
                     headers: {
-                        "Ocp-Apim-Subscription-Key": "6f6bc904f5c6444796afa0d83b783202"
+                        "Ocp-Apim-Subscription-Key": "4954b94809bc44f591bde5a8b837e52b"
                     }
                 }
             );

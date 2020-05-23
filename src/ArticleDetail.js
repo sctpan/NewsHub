@@ -8,10 +8,12 @@ import {FaRegBookmark, FaBookmark} from 'react-icons/fa'
 import {IoIosArrowDown, IoIosArrowUp} from 'react-icons/io'
 import BounceLoader from "react-spinners/BounceLoader";
 import {css} from "@emotion/core";
-import {OverlayTrigger, Tooltip} from "react-bootstrap";
+import {OverlayTrigger} from "react-bootstrap";
 import NewsCommentBox from "./NewsCommentBox";
+import ReactTooltip from "react-tooltip";
 import { toast, ToastContainer, Zoom} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {Element, animateScroll as scroll} from "react-scroll";
 
 
 class ArticleDetail extends React.Component {
@@ -25,8 +27,7 @@ class ArticleDetail extends React.Component {
 
     loaderStyle = css`
         margin: 0 auto;
-    `
-
+    `;
 
     getNews(url, articleId) {
         this.setState({
@@ -39,9 +40,8 @@ class ArticleDetail extends React.Component {
                 });
                 this.setState({
                     loading: false
-                });
+                }, this.showOrHideArrow);
                 this.setSaved();
-                this.showOrHideArrow();
             });
     }
 
@@ -71,7 +71,7 @@ class ArticleDetail extends React.Component {
         let style = window.getComputedStyle(words);
         let height = parseInt(style.height.replace('px',''));
         let lineHeight = parseInt(style.lineHeight.replace('px', ''));
-        let lines = height / lineHeight;
+        let lines = Math.round(height / lineHeight );
         console.log("article lines: " + lines);
         if(lines >= 6) {
             this.setState({
@@ -82,15 +82,10 @@ class ArticleDetail extends React.Component {
                 showArrow: false
             })
         }
-    }
+    };
 
     convertDate(date) {
-        date = new Date(date);
-        var month = date.getMonth() + 1;
-        var day = date.getDate();
-        month = month < 10 ? "0" + month : "" + month;
-        day = day < 10 ? "0" + day : "" + day;
-        return date.getFullYear() + '-' + month + '-' + day;
+        return date.substring(0, 10);
     }
 
 
@@ -102,27 +97,49 @@ class ArticleDetail extends React.Component {
         this.getNews(url, this.props.currentLink);
     }
 
-    scrollDown() {
+    getPosition(el) {
+        if(el === undefined) return {x: 0, y: 0};
+        var rect=el.getBoundingClientRect();
+        return {x:rect.left,y:rect.top};
+    }
+
+    getScrollPosition() {
+        var arrow = this.getPosition(document.getElementsByClassName("down-btn")[0]);
+        console.log(arrow.y);
+        return arrow.y - 30;
+    }
+
+
+
+
+    scrollDown = () => {
+        scroll.scrollTo(this.getScrollPosition());
         let short = document.getElementsByClassName('detailed-news-description')[0];
         let long = document.getElementsByClassName('detailed-news-description-scroll')[0];
         let upBtn = document.getElementsByClassName('up-btn')[0];
         let downBtn = document.getElementsByClassName('down-btn')[0];
         short.style.display = 'none';
         long.style.display = 'block';
+
         upBtn.style.display = 'block';
         downBtn.style.display = 'none';
-    }
 
-    scrollUp() {
-        let short = document.getElementsByClassName('detailed-news-description')[0];
-        let long = document.getElementsByClassName('detailed-news-description-scroll')[0];
-        let upBtn = document.getElementsByClassName('up-btn')[0];
-        let downBtn = document.getElementsByClassName('down-btn')[0];
-        short.style.display = '-webkit-box';
-        long.style.display = 'none';
-        upBtn.style.display = 'none';
-        downBtn.style.display = 'block';
-    }
+
+    };
+
+    scrollUp = () => {
+        scroll.scrollToTop({duration:300, smooth: true});
+        setTimeout(function() {
+            let short = document.getElementsByClassName('detailed-news-description')[0];
+            let long = document.getElementsByClassName('detailed-news-description-scroll')[0];
+            let upBtn = document.getElementsByClassName('up-btn')[0];
+            let downBtn = document.getElementsByClassName('down-btn')[0];
+            short.style.display = '-webkit-box';
+            long.style.display = 'none';
+            upBtn.style.display = 'none';
+            downBtn.style.display = 'block';
+        }, 300);
+    };
 
     saveOrRemoveNews = () => {
         if(this.state.saved) {
@@ -184,6 +201,7 @@ class ArticleDetail extends React.Component {
 
 
     render() {
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         let bookmark = this.state.saved ? <FaBookmark size={26}/> : <FaRegBookmark size={26}/>;
         let arrow = this.state.showArrow ?  <button className="detailed-news-content-scroll-btn down-btn" onClick={this.scrollDown}>
             <IoIosArrowDown size={24}/>
@@ -206,59 +224,54 @@ class ArticleDetail extends React.Component {
         } else {
             return (
                 <div>
+                    <ReactTooltip id="facebook" disable={isMobile} effect="solid" place="top" className="tooltip"/>
+                    <ReactTooltip id="twitter" disable={isMobile} effect="solid" place="top" className="tooltip"/>
+                    <ReactTooltip id="email" disable={isMobile} effect="solid" place="top" className="tooltip"/>
+                    <ReactTooltip id="article-bookmark" disable={isMobile} effect="solid" place="top" className="tooltip"/>
                     <div className="detailed-news">
                         <div className="detailed-news-title">
                             {this.state.news.title}
                         </div>
                         <div className="detailed-news-info">
                             <span className="detailed-news-time">{this.convertDate(this.state.news.date)}</span>
+                            <span>
                                 <IconContext.Provider value={{ color: "red" }}>
 
-                                        <OverlayTrigger
-                                            placement="top"
-                                            overlay={
-                                                <Tooltip>Bookmark</Tooltip>
-                                            }
-                                        >
-                                            <button className="detailed-news-bookmark" onClick={this.saveOrRemoveNews}>
+                                            <button  className="detailed-news-bookmark" onClick={this.saveOrRemoveNews}>
                                                 <ToastContainer transition={Zoom} />
-                                                {bookmark}
+                                                <span data-tip="Bookmark" data-for="article-bookmark">
+                                                    {bookmark}
+                                                </span>
+
                                             </button>
-                                        </OverlayTrigger>
+
                                 </IconContext.Provider>
+                            </span>
+
                             <span className="detailed-news-share">
-                                 <OverlayTrigger
-                                     placement="top"
-                                     overlay={
-                                         <Tooltip>Facebook</Tooltip>
-                                     }
-                                 >
-                                     <FacebookShareButton className="social-share-btn" url={this.state.news.shareUrl}>
-                                        <FacebookIcon className="social-share-icon" size={28} round={true}/>
+
+                                     <FacebookShareButton  className="social-share-btn" url={this.state.news.shareUrl}>
+                                         <span data-tip="Facebook" data-for='facebook' >
+                                             <FacebookIcon className="social-share-icon" size={28} round={true}/>
+                                         </span>
                                      </FacebookShareButton>
-                                 </OverlayTrigger>
 
-                                <OverlayTrigger
-                                    placement="top"
-                                    overlay={
-                                        <Tooltip>Twitter</Tooltip>
-                                    }
-                                >
-                                  <TwitterShareButton className="social-share-btn" url={this.state.news.shareUrl}>
-                                      <TwitterIcon className="social-share-icon" size={28} round={true}/>
+
+
+                                  <TwitterShareButton  className="social-share-btn" url={this.state.news.shareUrl}>
+                                      <span data-tip="Twitter" data-for='twitter' >
+                                        <TwitterIcon className="social-share-icon" size={28} round={true}/>
+                                      </span>
                                   </TwitterShareButton>
-                                </OverlayTrigger>
 
-                                <OverlayTrigger
-                                    placement="top"
-                                    overlay={
-                                        <Tooltip>Email</Tooltip>
-                                    }
-                                >
-                                    <EmailShareButton className="social-share-btn" url={this.state.news.shareUrl} subject={'#CSCI_571_NewsApp'}>
-                                      <EmailIcon className="social-share-icon" size={28} round={true}/>
+
+
+                                    <EmailShareButton  className="social-share-btn" url={this.state.news.shareUrl} subject={'#CSCI_571_NewsApp'}>
+                                        <span data-tip="Email" data-for='email' >
+                                            <EmailIcon className="social-share-icon" size={28} round={true}/>
+                                        </span>
                                   </EmailShareButton>
-                                </OverlayTrigger>
+
                         </span>
                         </div>
                         <img className="detailed-news-image" src={this.state.news.image}/>

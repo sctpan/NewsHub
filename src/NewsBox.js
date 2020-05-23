@@ -23,12 +23,7 @@ class NewsBox extends React.Component {
     }
 
     convertDate(date) {
-        date = new Date(date);
-        var month = date.getMonth() + 1;
-        var day = date.getDate();
-        month = month < 10 ? "0" + month : "" + month;
-        day = day < 10 ? "0" + day : "" + day;
-        return date.getFullYear() + '-' + month + '-' + day;
+        return date.substring(0, 10);
     }
 
     putArticleUrl = () => {

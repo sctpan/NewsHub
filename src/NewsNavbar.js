@@ -6,10 +6,10 @@ import NewsSwitch from "./NewsSwitch";
 import './styles.css'
 import {IconContext} from 'react-icons'
 import {FaRegBookmark, FaBookmark} from 'react-icons/fa'
+import ReactTooltip from "react-tooltip";
 
 
 class NewsNavbar extends React.Component {
-
     getSource = nyTimesFlag => {
         console.log("nyTimesFlag: " + nyTimesFlag);
         this.props.getSource(nyTimesFlag);
@@ -24,6 +24,7 @@ class NewsNavbar extends React.Component {
     };
 
     handleChange = () => {
+        ReactTooltip.hide();
         if(this.props.fav) {
             window.location.href = '#/Home';
         } else {
@@ -32,7 +33,8 @@ class NewsNavbar extends React.Component {
     };
 
     render() {
-        let bookmark = this.props.fav ? <FaBookmark size={22}/> : <FaRegBookmark size={22}/>;
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        let bookmark = this.props.fav ? <FaBookmark   size={22}/> : <FaRegBookmark  size={22}/>;
         let newsSwitch = <>
             <span className="switchSpan">NYTimes</span>
             <NewsSwitch nyTimesFlag={this.props.nyTimesFlag} getSource={this.getSource}/>
@@ -43,13 +45,9 @@ class NewsNavbar extends React.Component {
         }
         return (
             <Navbar className="navbar" expand="lg" bg="dark" variant="dark">
+                <ReactTooltip id="bookmark" disable={isMobile} effect="solid" place="bottom" className="tooltip"/>
 
                 <AsyncSearchBox refresh={this.props.search}/>
-
-
-
-
-
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="mr-auto" activeKey={this.getSectionKey(this.props.activeSection)}>
@@ -62,8 +60,13 @@ class NewsNavbar extends React.Component {
                         </Nav>
                         <Nav>
                             <IconContext.Provider value={{ color: "white" }}>
-                                <div className="bookmark" onClick={this.handleChange}>
+                                <div  className="bookmark" onClick={this.handleChange}>
+                                    <span data-tip="Bookmark" data-for="bookmark">
                                         {bookmark}
+                                    </span>
+
+
+
                                 </div>
                             </IconContext.Provider>
                             {newsSwitch}

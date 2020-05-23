@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'http://localhost:5000/'
+const baseUrl = 'http://localhost:5000/';
 function get(url, params) {
     url = baseUrl + url;
     return axios.get(url, {params: params})

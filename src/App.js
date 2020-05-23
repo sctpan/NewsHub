@@ -9,6 +9,7 @@ import NewsFavContent from "./NewsFavContent";
 class App extends React.Component {
     constructor() {
         super();
+        window.location.href = '#/Home';
         let nyTimesFlag = true;
         if(localStorage.getItem('source') != null) {
             let source = localStorage.getItem('source');

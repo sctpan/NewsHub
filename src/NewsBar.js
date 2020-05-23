@@ -4,6 +4,7 @@ import {Row, Col, Container, Badge} from 'react-bootstrap'
 import {IoMdShare} from 'react-icons/io'
 import test from './test.jpg'
 
+
 class NewsBar extends React.Component {
     state = {
         fav: false
@@ -14,12 +15,7 @@ class NewsBar extends React.Component {
     }
 
     convertDate(date) {
-        date = new Date(date);
-        var month = date.getMonth() + 1;
-        var day = date.getDate();
-        month = month < 10 ? "0" + month : "" + month;
-        day = day < 10 ? "0" + day : "" + day;
-        return date.getFullYear() + '-' + month + '-' + day;
+        return date.substring(0, 10);
     }
 
     putArticleUrl = () => {
@@ -55,10 +51,9 @@ class NewsBar extends React.Component {
     render() {
         return (
             <div className="newsbar">
-                {/*{console.log("news: " + this.props.news.title)}*/}
                 <Row>
                     <Col md="auto">
-                        <img src={this.props.news.image} className="news-image"/>
+                        <img onClick={this.putArticleUrl} src={this.props.news.image} className="news-image"/>
                     </Col>
                     <Col>
                             <div className="news-title">
